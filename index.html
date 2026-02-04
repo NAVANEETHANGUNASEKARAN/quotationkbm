@@ -76,17 +76,17 @@
             margin-bottom: 15px;
         }
         .logo {
-            width: 120px;  /* ✅ INCREASED from 80px */
-            height: 120px; /* ✅ TALLER logo */
+            width: 180px;  /* ✅ 1.5x LARGER (120px → 180px) */
+            height: 180px; /* ✅ 1.5x LARGER */
             margin-right: 25px;
-            object-fit: contain; /* Keeps logo crisp */
+            object-fit: contain;
         }
         .company-info {
             flex: 1;
             position: relative;
         }
         .company-name {
-            font-size: 36px;  /* Slightly larger */
+            font-size: 36px;
             font-weight: bold;
             font-family: serif;
             color: #1a3c34;
@@ -95,10 +95,10 @@
             display: inline-block;
         }
         .address {
-            font-size: 14px;  /* Slightly larger */
+            font-size: 14px;
             position: absolute;
             left: 0;
-            top: 100%;        /* ✅ DIRECTLY BELOW company name */
+            top: 100%;
             width: 100%;
             line-height: 1.4;
             color: #333;
@@ -238,10 +238,11 @@
             gap: 15px;
             margin-top: 30px;
             justify-content: center;
+            flex-wrap: wrap;
         }
         .actions button {
             flex: 1;
-            max-width: 200px;
+            min-width: 160px;
             padding: 15px 25px;
             background: #1a3c34;
             color: white;
@@ -250,9 +251,16 @@
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
+            margin: 5px;
         }
         .actions button:hover {
             background: #25544a;
+        }
+        .print-btn {
+            background: #28a745 !important; /* Green for print */
+        }
+        .print-btn:hover {
+            background: #218838 !important;
         }
         
         /* Modal */
@@ -313,7 +321,7 @@
         @media (max-width: 768px) {
             .quotation-container { padding: 20px; margin: 10px; }
             .header { flex-direction: column; align-items: flex-start; }
-            .logo { width: 100px; height: 100px; margin-bottom: 10px; }
+            .logo { width: 140px; height: 140px; margin-bottom: 10px; margin-right: 0; }
             .address { 
                 position: static; 
                 margin-top: 5px; 
@@ -328,9 +336,17 @@
         }
         
         @media print {
-            .modal, .table-actions, .actions, .delete-btn { display: none !important; }
-            .quotation-container { box-shadow: none; margin: 0; padding: 20px; }
-            .call-icon { display: none; }
+            body * { visibility: hidden; }
+            .quotation-container, .quotation-container * { visibility: visible; }
+            .quotation-container { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                box-shadow: none; 
+                padding: 20px; 
+            }
+            .modal, .table-actions, .actions, .delete-btn, .call-icon { display: none !important; }
         }
     </style>
 </head>
@@ -347,7 +363,7 @@
 
     <!-- Quotation Page -->
     <div id="quotationScreen" class="quotation-container">
-        <!-- Header - FIXED ALIGNMENT -->
+        <!-- Header -->
         <div class="header">
             <img src="images/logo.png" alt="Kannan Blue Metals" class="logo">
             <div class="company-info">
@@ -409,8 +425,9 @@
             <img src="images/call.png" alt="Call" class="call-icon">82206 24590 | 63698 30590 | 9842830590
         </div>
 
-        <!-- Actions -->
+        <!-- Actions - NOW 3 BUTTONS -->
         <div class="actions">
+            <button class="print-btn" onclick="printQuotation()">🖨️ Print Quotation</button>
             <button onclick="downloadPDF()">📥 Download PDF</button>
             <button onclick="shareWhatsApp()">📱 Share WhatsApp</button>
         </div>
@@ -467,6 +484,11 @@
                 year: 'numeric'
             });
             document.getElementById('currentDate').textContent = today;
+        }
+
+        // Print Quotation - NEW BUTTON
+        function printQuotation() {
+            window.print();
         }
 
         // Material Modal
@@ -527,36 +549,41 @@
             document.getElementById('grandTotal').textContent = '₹' + total.toLocaleString('en-IN');
         }
 
-        // PDF Download
+        // PDF Download - NOW INCLUDES LOGO
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Header
+            // LOAD LOGO (Convert to base64 or use canvas)
+            const logoImg = document.querySelector('.logo');
+            const imgData = logoImg.src;
+            
+            // Header with LOGO
+            doc.addImage(imgData, 'PNG', 15, 15, 35, 35); // Logo in PDF (smaller for page)
             doc.setFontSize(24);
             doc.setFont('helvetica', 'bold');
-            doc.text('KANNAN BLUE METALS', 20, 28);
+            doc.text('KANNAN BLUE METALS', 55, 25);
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.text('165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051', 20, 40);
-            doc.line(20, 45, 190, 45);
+            doc.text('165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051', 55, 37);
+            doc.line(15, 45, 195, 45);
             
             // Date & Customer
             doc.setFontSize(13);
             doc.setFont('helvetica', 'bold');
             doc.text(`Date: ${document.getElementById('currentDate').textContent}`, 150, 55);
-            doc.text('Party Name: ' + (document.getElementById('partyName').value || ''), 20, 70);
+            doc.text('Party Name: ' + (document.getElementById('partyName').value || ''), 15, 70);
             doc.text('Place: ' + (document.getElementById('partyPlace').value || ''), 120, 70);
             
             // Table
             let y = 85;
             doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
-            doc.text('Materials', 20, y);
-            doc.text('Unit', 70, y);
-            doc.text('Cost', 95, y);
-            doc.text('Amount', 130, y);
-            doc.line(20, y + 3, 190, y + 3);
+            doc.text('Materials', 15, y);
+            doc.text('Unit', 65, y);
+            doc.text('Cost', 90, y);
+            doc.text('Amount', 125, y);
+            doc.line(15, y + 3, 195, y + 3);
             y += 12;
             
             // Rows
@@ -569,10 +596,10 @@
                 }
                 const cells = row.cells;
                 if (cells.length === 5) {
-                    doc.text(cells[0].textContent, 20, y);
-                    doc.text(cells[1].querySelector('input')?.value || '0', 70, y);
-                    doc.text(cells[2].querySelector('input')?.value || '0', 95, y);
-                    doc.text(cells[3].textContent.replace('₹', ''), 130, y);
+                    doc.text(cells[0].textContent, 15, y);
+                    doc.text(cells[1].querySelector('input')?.value || '0', 65, y);
+                    doc.text(cells[2].querySelector('input')?.value || '0', 90, y);
+                    doc.text(cells[3].textContent.replace('₹', ''), 125, y);
                     y += 10;
                 }
             });
@@ -580,10 +607,10 @@
             // Total
             const grandTotal = document.getElementById('grandTotal').textContent.replace('₹', '');
             doc.setFont('helvetica', 'bold');
-            doc.text('GRAND TOTAL: ' + grandTotal, 120, y);
+            doc.text('GRAND TOTAL: ' + grandTotal, 115, y);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'italic');
-            doc.text('(including transport charges)', 20, y + 8);
+            doc.text('(including transport charges)', 15, y + 8);
             
             // Footer
             doc.setFont('helvetica', 'normal');
