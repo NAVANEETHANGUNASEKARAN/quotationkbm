@@ -70,26 +70,29 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
-        /* FIXED HEADER - Logo LEFT + Text RIGHT */
+        /* ✅ PERFECT ALIGNMENT - Logo LEFT + Text TOP-RIGHT */
         .header {
             display: flex;
             align-items: flex-start;
-            gap: 25px;
-            margin-bottom: 10px;
+            gap: 30px;
+            margin-bottom: 15px;
+            height: 120px; /* Fixed height for perfect alignment */
+        }
+        .logo-container {
+            flex: 0 0 120px; /* Fixed width */
+            height: 120px;
         }
         .logo {
-            width: 160px;  /* Slightly smaller for better fit */
-            height: 160px;
-            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            display: block; /* ✅ CRITICAL FIX */
+            display: block;
         }
         .company-info {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            margin-top: 10px; /* Slight alignment tweak */
         }
         .company-name {
             font-size: 32px;
@@ -97,13 +100,12 @@
             font-family: serif;
             color: #1a3c34;
             line-height: 1.0;
-            margin-bottom: 0px; /* ✅ TIGHT spacing */
+            margin-bottom: 2px;
         }
         .address {
             font-size: 13px;
             line-height: 1.3;
             color: #333;
-            margin-top: 0px;
         }
         .header-line {
             height: 2px;
@@ -288,8 +290,8 @@
         /* Responsive */
         @media (max-width: 768px) {
             .quotation-container { padding: 20px; margin: 10px; }
-            .header { flex-direction: column; gap: 10px; }
-            .logo { width: 120px; height: 120px; }
+            .header { flex-direction: column; height: auto; }
+            .logo-container { flex: none; width: 100px; height: 100px; }
             .company-name { font-size: 28px; }
             .customer-section { flex-direction: column; gap: 15px; }
             table { font-size: 13px; }
@@ -297,6 +299,7 @@
             .actions { flex-direction: column; }
         }
         
+        /* PRINT - PERFECT ALIGNMENT */
         @media print {
             body * { visibility: hidden; }
             .quotation-container, .quotation-container * { visibility: visible; }
@@ -305,7 +308,8 @@
                 box-shadow: none; padding: 20px; 
             }
             .modal, .table-actions, .actions, .delete-btn, .call-icon { display: none !important; }
-            .logo { width: 100px !important; height: 100px !important; }
+            .header { height: 80px !important; }
+            .logo-container { flex: 0 0 80px !important; height: 80px !important; }
         }
     </style>
 </head>
@@ -322,9 +326,11 @@
 
     <!-- Quotation Page -->
     <div id="quotationScreen" class="quotation-container">
-        <!-- PERFECTLY ALIGNED Header -->
+        <!-- ✅ PERFECTLY ALIGNED Header -->
         <div class="header">
-            <img src="images/logo.jpg" alt="Kannan Blue Metals Logo" class="logo" onerror="this.style.display='none'">
+            <div class="logo-container">
+                <img src="images/logo.jpg" alt="Kannan Blue Metals" class="logo">
+            </div>
             <div class="company-info">
                 <div class="company-name">KANNAN BLUE METALS</div>
                 <div class="address">165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051</div>
@@ -412,7 +418,6 @@
         const ADMIN_USER = 'admin';
         const ADMIN_PASS = 'Kannan';
 
-        // Check login on page load
         window.onload = function() {
             if (localStorage.getItem('kannanLoggedIn') === 'true') {
                 document.getElementById('loginScreen').style.display = 'none';
@@ -421,7 +426,6 @@
             }
         };
 
-        // Logout on page close/refresh
         window.addEventListener('beforeunload', function() {
             localStorage.removeItem('kannanLoggedIn');
         });
@@ -502,33 +506,33 @@
             document.getElementById('grandTotal').textContent = '₹' + total.toLocaleString('en-IN');
         }
 
-        // SIMPLIFIED PDF - No logo issues
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
+            // Header with PERFECT alignment
             doc.setFontSize(24);
             doc.setFont('helvetica', 'bold');
-            doc.text('KANNAN BLUE METALS', 20, 30);
+            doc.text('KANNAN BLUE METALS', 55, 28);
             doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.text('165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051', 20, 42);
-            doc.line(20, 48, 195, 48);
+            doc.text('165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051', 55, 40);
+            doc.line(15, 45, 195, 45);
             
             doc.setFontSize(13);
             doc.setFont('helvetica', 'bold');
-            doc.text(`Date: ${document.getElementById('currentDate').textContent}`, 150, 60);
-            doc.text('Party Name: ' + (document.getElementById('partyName').value || ''), 20, 75);
-            doc.text('Place: ' + (document.getElementById('partyPlace').value || ''), 120, 75);
+            doc.text(`Date: ${document.getElementById('currentDate').textContent}`, 150, 55);
+            doc.text('Party Name: ' + (document.getElementById('partyName').value || ''), 15, 70);
+            doc.text('Place: ' + (document.getElementById('partyPlace').value || ''), 120, 70);
             
-            let y = 90;
+            let y = 85;
             doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
-            doc.text('Materials', 20, y);
-            doc.text('Unit', 70, y);
-            doc.text('Cost', 95, y);
-            doc.text('Amount', 130, y);
-            doc.line(20, y + 3, 195, y + 3);
+            doc.text('Materials', 15, y);
+            doc.text('Unit', 65, y);
+            doc.text('Cost', 90, y);
+            doc.text('Amount', 125, y);
+            doc.line(15, y + 3, 195, y + 3);
             y += 12;
             
             document.querySelectorAll('#quotationTable tr').forEach(row => {
@@ -539,20 +543,20 @@
                 const cells = row.cells;
                 if (cells.length === 5) {
                     doc.setFont('helvetica', 'normal');
-                    doc.text(cells[0].textContent, 20, y);
-                    doc.text(cells[1].querySelector('input')?.value || '0', 70, y);
-                    doc.text(cells[2].querySelector('input')?.value || '0', 95, y);
-                    doc.text(cells[3].textContent.replace('₹', ''), 130, y);
+                    doc.text(cells[0].textContent, 15, y);
+                    doc.text(cells[1].querySelector('input')?.value || '0', 65, y);
+                    doc.text(cells[2].querySelector('input')?.value || '0', 90, y);
+                    doc.text(cells[3].textContent.replace('₹', ''), 125, y);
                     y += 10;
                 }
             });
             
             const grandTotal = document.getElementById('grandTotal').textContent.replace('₹', '');
             doc.setFont('helvetica', 'bold');
-            doc.text('GRAND TOTAL: ' + grandTotal, 120, y);
+            doc.text('GRAND TOTAL: ' + grandTotal, 115, y);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'italic');
-            doc.text('(including transport charges)', 20, y + 8);
+            doc.text('(including transport charges)', 15, y + 8);
             
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(12);
