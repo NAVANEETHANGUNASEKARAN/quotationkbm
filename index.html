@@ -70,42 +70,44 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
-        /* ✅ PERFECT HEADER ALIGNMENT */
+        /* FIXED HEADER - Logo LEFT + Text RIGHT */
         .header {
             display: flex;
             align-items: flex-start;
-            gap: 20px;
+            gap: 25px;
             margin-bottom: 10px;
         }
         .logo {
-            width: 180px;
-            height: 180px;
-            flex-shrink: 0; /* Prevents shrinking */
+            width: 160px;  /* Slightly smaller for better fit */
+            height: 160px;
+            flex-shrink: 0;
             object-fit: contain;
+            display: block; /* ✅ CRITICAL FIX */
         }
         .company-info {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
+            margin-top: 10px; /* Slight alignment tweak */
         }
         .company-name {
-            font-size: 34px;  /* Slightly smaller */
+            font-size: 32px;
             font-weight: bold;
             font-family: serif;
             color: #1a3c34;
-            line-height: 1.0; /* ✅ TIGHTER spacing */
-            margin-bottom: 2px; /* ✅ REDUCED gap */
+            line-height: 1.0;
+            margin-bottom: 0px; /* ✅ TIGHT spacing */
         }
         .address {
-            font-size: 13px;  /* Slightly smaller */
-            line-height: 1.3; /* ✅ TIGHTER spacing */
+            font-size: 13px;
+            line-height: 1.3;
             color: #333;
-            margin-top: 0;    /* ✅ NO extra space */
+            margin-top: 0px;
         }
         .header-line {
-            height: 1px;
-            background: #ccc;
+            height: 2px;
+            background: #1a3c34;
             margin: 15px 0;
         }
         
@@ -122,9 +124,7 @@
             gap: 30px;
             margin-bottom: 25px;
         }
-        .customer-section > div {
-            flex: 1;
-        }
+        .customer-section > div { flex: 1; }
         .customer-section label {
             font-weight: bold;
             display: block;
@@ -139,9 +139,7 @@
             font-size: 15px;
         }
         
-        .table-actions {
-            margin-bottom: 20px;
-        }
+        .table-actions { margin-bottom: 20px; }
         .add-material-btn {
             background: #4CAF50;
             color: white;
@@ -152,9 +150,7 @@
             font-size: 15px;
             font-weight: 500;
         }
-        .add-material-btn:hover {
-            background: #45a049;
-        }
+        .add-material-btn:hover { background: #45a049; }
         
         table {
             width: 100%;
@@ -169,10 +165,7 @@
             font-weight: bold;
             border-bottom: 2px solid #dee2e6;
         }
-        td {
-            padding: 15px 12px;
-            border-bottom: 1px solid #eee;
-        }
+        td { padding: 15px 12px; border-bottom: 1px solid #eee; }
         input[type="number"] {
             width: 100%;
             border: 1px solid #ddd;
@@ -180,10 +173,7 @@
             border-radius: 4px;
             text-align: right;
         }
-        .amount {
-            font-weight: 600;
-            color: #1a3c34;
-        }
+        .amount { font-weight: 600; color: #1a3c34; }
         .delete-btn {
             background: #dc3545;
             color: white;
@@ -197,9 +187,7 @@
             align-items: center;
             justify-content: center;
         }
-        .delete-btn:hover {
-            background: #c82333;
-        }
+        .delete-btn:hover { background: #c82333; }
         
         .note {
             text-align: right;
@@ -244,15 +232,9 @@
             cursor: pointer;
             margin: 5px;
         }
-        .actions button:hover {
-            background: #25544a;
-        }
-        .print-btn {
-            background: #28a745 !important;
-        }
-        .print-btn:hover {
-            background: #218838 !important;
-        }
+        .actions button:hover { background: #25544a; }
+        .print-btn { background: #28a745 !important; }
+        .print-btn:hover { background: #218838 !important; }
         
         /* Modal */
         .modal {
@@ -282,13 +264,8 @@
             cursor: pointer;
             color: #999;
         }
-        .close:hover {
-            color: #333;
-        }
-        .modal h3 {
-            margin-bottom: 20px;
-            color: #1a3c34;
-        }
+        .close:hover { color: #333; }
+        .modal h3 { margin-bottom: 20px; color: #1a3c34; }
         .modal select {
             width: 100%;
             padding: 12px;
@@ -311,8 +288,8 @@
         /* Responsive */
         @media (max-width: 768px) {
             .quotation-container { padding: 20px; margin: 10px; }
-            .header { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .logo { width: 140px; height: 140px; }
+            .header { flex-direction: column; gap: 10px; }
+            .logo { width: 120px; height: 120px; }
             .company-name { font-size: 28px; }
             .customer-section { flex-direction: column; gap: 15px; }
             table { font-size: 13px; }
@@ -324,15 +301,11 @@
             body * { visibility: hidden; }
             .quotation-container, .quotation-container * { visibility: visible; }
             .quotation-container { 
-                position: absolute; 
-                left: 0; 
-                top: 0; 
-                width: 100%; 
-                box-shadow: none; 
-                padding: 20px; 
+                position: absolute; left: 0; top: 0; width: 100%; 
+                box-shadow: none; padding: 20px; 
             }
             .modal, .table-actions, .actions, .delete-btn, .call-icon { display: none !important; }
-            .logo { width: 120px !important; height: 120px !important; }
+            .logo { width: 100px !important; height: 100px !important; }
         }
     </style>
 </head>
@@ -349,24 +322,20 @@
 
     <!-- Quotation Page -->
     <div id="quotationScreen" class="quotation-container">
-        <!-- ✅ PERFECTLY ALIGNED Header -->
+        <!-- PERFECTLY ALIGNED Header -->
         <div class="header">
-            <img src="images/logo.jpg" alt="Kannan Blue Metals" class="logo">
+            <img src="images/logo.jpg" alt="Kannan Blue Metals Logo" class="logo" onerror="this.style.display='none'">
             <div class="company-info">
                 <div class="company-name">KANNAN BLUE METALS</div>
-                <div class="address">
-                    165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051
-                </div>
+                <div class="address">165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051</div>
             </div>
         </div>
         <div class="header-line"></div>
 
-        <!-- Date -->
         <div class="date-section">
             Date: <span id="currentDate"></span>
         </div>
 
-        <!-- Customer Details -->
         <div class="customer-section">
             <div>
                 <label>Party Name:</label>
@@ -378,12 +347,10 @@
             </div>
         </div>
 
-        <!-- Table Actions -->
         <div class="table-actions">
             <button class="add-material-btn" onclick="openMaterialModal()">+ Add Material</button>
         </div>
 
-        <!-- Table -->
         <table>
             <thead>
                 <tr>
@@ -394,8 +361,7 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="quotationTable">
-            </tbody>
+            <tbody id="quotationTable"></tbody>
             <tfoot>
                 <tr>
                     <td colspan="3" style="text-align: right; font-weight: bold; padding: 20px 12px;">GRAND TOTAL:</td>
@@ -405,12 +371,10 @@
         </table>
         <div class="note">(including transport charges)</div>
 
-        <!-- Footer -->
         <div class="footer">
             <img src="images/call.png" alt="Call" class="call-icon">82206 24590 | 63698 30590 | 9842830590
         </div>
 
-        <!-- Actions -->
         <div class="actions">
             <button class="print-btn" onclick="printQuotation()">🖨️ Print Quotation</button>
             <button onclick="downloadPDF()">📥 Download PDF</button>
@@ -418,7 +382,7 @@
         </div>
     </div>
 
-    <!-- Add Material Modal -->
+    <!-- Material Modal -->
     <div id="materialModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeMaterialModal()">&times;</span>
@@ -447,39 +411,35 @@
         let rowCounter = 0;
         const ADMIN_USER = 'admin';
         const ADMIN_PASS = 'Kannan';
-        let isLoggedIn = localStorage.getItem('kannanLoggedIn') === 'true';
 
         // Check login on page load
         window.onload = function() {
-            if (isLoggedIn) {
+            if (localStorage.getItem('kannanLoggedIn') === 'true') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('quotationScreen').style.display = 'block';
                 setCurrentDate();
             }
         };
 
-        // Logout on page unload/refresh/close
+        // Logout on page close/refresh
         window.addEventListener('beforeunload', function() {
             localStorage.removeItem('kannanLoggedIn');
-            isLoggedIn = false;
         });
 
-        // Login with session persistence
         function login() {
             const user = document.getElementById('username').value;
             const pass = document.getElementById('password').value;
             if (user === ADMIN_USER && pass === ADMIN_PASS) {
                 localStorage.setItem('kannanLoggedIn', 'true');
-                isLoggedIn = true;
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('quotationScreen').style.display = 'block';
+                document.getElementById('errorMsg').style.display = 'none';
                 setCurrentDate();
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
             }
         }
 
-        // Date
         function setCurrentDate() {
             const today = new Date().toLocaleDateString('en-GB', {
                 day: '2-digit',
@@ -489,12 +449,8 @@
             document.getElementById('currentDate').textContent = today;
         }
 
-        // Print Quotation
-        function printQuotation() {
-            window.print();
-        }
+        function printQuotation() { window.print(); }
 
-        // Material Modal
         function openMaterialModal() {
             document.getElementById('materialModal').style.display = 'block';
         }
@@ -503,7 +459,6 @@
             document.getElementById('materialSelect').value = '';
         }
 
-        // Add Material Row
         function addMaterialRow() {
             const material = document.getElementById('materialSelect').value;
             if (!material) return;
@@ -524,14 +479,11 @@
             closeMaterialModal();
         }
 
-        // Delete Row
         function deleteRow(index) {
-            const row = document.getElementById(`row-${index}`);
-            row.remove();
+            document.getElementById(`row-${index}`).remove();
             calculateGrandTotal();
         }
 
-        // Calculate Single Row
         function calculateRow(index) {
             const row = document.getElementById(`row-${index}`);
             const unit = parseFloat(row.cells[1].querySelector('input').value) || 0;
@@ -541,86 +493,67 @@
             calculateGrandTotal();
         }
 
-        // Calculate Grand Total
         function calculateGrandTotal() {
             let total = 0;
-            const amounts = document.querySelectorAll('.amount');
-            amounts.forEach(cell => {
+            document.querySelectorAll('.amount').forEach(cell => {
                 const val = parseFloat(cell.textContent.replace(/[₹,]/g, '')) || 0;
                 total += val;
             });
             document.getElementById('grandTotal').textContent = '₹' + total.toLocaleString('en-IN');
         }
 
-        // PDF Download - ✅ FIXED LOGO SIZE (Square proportions)
+        // SIMPLIFIED PDF - No logo issues
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Header - PERFECTLY PROPORTIONED LOGO
-            const img = new Image();
-            img.src = 'images/logo.jpg';
-            img.onload = function() {
-                doc.addImage(img.src, 'JPEG', 15, 15, 40, 40); // ✅ SQUARE 40x40
-                addPDFContent(doc);
-            };
-        }
-
-        function addPDFContent(doc) {
-            // Header Text
-            doc.setFontSize(22);
+            doc.setFontSize(24);
             doc.setFont('helvetica', 'bold');
-            doc.text('KANNAN BLUE METALS', 60, 28);
-            doc.setFontSize(11);
+            doc.text('KANNAN BLUE METALS', 20, 30);
+            doc.setFontSize(12);
             doc.setFont('helvetica', 'normal');
-            doc.text('165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051', 60, 38);
-            doc.line(15, 45, 195, 45);
+            doc.text('165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051', 20, 42);
+            doc.line(20, 48, 195, 48);
             
-            // Date & Customer
             doc.setFontSize(13);
             doc.setFont('helvetica', 'bold');
-            doc.text(`Date: ${document.getElementById('currentDate').textContent}`, 150, 55);
-            doc.text('Party Name: ' + (document.getElementById('partyName').value || ''), 15, 70);
-            doc.text('Place: ' + (document.getElementById('partyPlace').value || ''), 120, 70);
+            doc.text(`Date: ${document.getElementById('currentDate').textContent}`, 150, 60);
+            doc.text('Party Name: ' + (document.getElementById('partyName').value || ''), 20, 75);
+            doc.text('Place: ' + (document.getElementById('partyPlace').value || ''), 120, 75);
             
-            // Table
-            let y = 85;
+            let y = 90;
             doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
-            doc.text('Materials', 15, y);
-            doc.text('Unit', 65, y);
-            doc.text('Cost', 90, y);
-            doc.text('Amount', 125, y);
-            doc.line(15, y + 3, 195, y + 3);
+            doc.text('Materials', 20, y);
+            doc.text('Unit', 70, y);
+            doc.text('Cost', 95, y);
+            doc.text('Amount', 130, y);
+            doc.line(20, y + 3, 195, y + 3);
             y += 12;
             
-            // Rows
-            const rows = document.querySelectorAll('#quotationTable tr');
-            doc.setFont('helvetica', 'normal');
-            rows.forEach(row => {
+            document.querySelectorAll('#quotationTable tr').forEach(row => {
                 if (y > 270) {
                     doc.addPage();
                     y = 20;
                 }
                 const cells = row.cells;
                 if (cells.length === 5) {
-                    doc.text(cells[0].textContent, 15, y);
-                    doc.text(cells[1].querySelector('input')?.value || '0', 65, y);
-                    doc.text(cells[2].querySelector('input')?.value || '0', 90, y);
-                    doc.text(cells[3].textContent.replace('₹', ''), 125, y);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(cells[0].textContent, 20, y);
+                    doc.text(cells[1].querySelector('input')?.value || '0', 70, y);
+                    doc.text(cells[2].querySelector('input')?.value || '0', 95, y);
+                    doc.text(cells[3].textContent.replace('₹', ''), 130, y);
                     y += 10;
                 }
             });
             
-            // Total
             const grandTotal = document.getElementById('grandTotal').textContent.replace('₹', '');
             doc.setFont('helvetica', 'bold');
-            doc.text('GRAND TOTAL: ' + grandTotal, 115, y);
+            doc.text('GRAND TOTAL: ' + grandTotal, 120, y);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'italic');
-            doc.text('(including transport charges)', 15, y + 8);
+            doc.text('(including transport charges)', 20, y + 8);
             
-            // Footer
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(12);
             doc.text('Call: 82206 24590 | 63698 30590 | 9842830590', 105, 280, {align: 'center'});
@@ -628,7 +561,6 @@
             doc.save('Kannan-Blue-Metals-Quotation.pdf');
         }
 
-        // WhatsApp Share
         function shareWhatsApp() {
             const partyName = document.getElementById('partyName').value || 'Customer';
             const place = document.getElementById('partyPlace').value || '';
@@ -639,8 +571,7 @@
             message += `*Date:* ${date}\n`;
             message += `*Party:* ${partyName} (${place})\n\n`;
             
-            const rows = document.querySelectorAll('#quotationTable tr');
-            rows.forEach(row => {
+            document.querySelectorAll('#quotationTable tr').forEach(row => {
                 const cells = row.cells;
                 if (cells.length === 5) {
                     const unit = cells[1].querySelector('input')?.value || 0;
@@ -651,20 +582,15 @@
                 }
             });
             
-            message += `\n*Grand Total:* ${total}\n`;
-            message += `*(including transport charges)*\n\n`;
-            message += `Call: 82206 24590 | 63698 30590 | 9842830590`;
-            
+            message += `\n*Grand Total:* ${total}\n*(including transport charges)*\n\nCall: 82206 24590 | 63698 30590 | 9842830590`;
             window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // Close modal on outside click
         window.onclick = function(event) {
             const modal = document.getElementById('materialModal');
             if (event.target === modal) closeMaterialModal();
         }
 
-        // Enter key login
         document.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') login();
         });
