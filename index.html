@@ -71,42 +71,51 @@
         }
         
         /* ✅ PERFECT ALIGNMENT - Logo LEFT + Text TOP-RIGHT */
-        .header {
-            display: flex;
-            align-items: flex-start;
-            gap: 30px;
-            margin-bottom: 15px;
-            height: 120px; /* Fixed height for perfect alignment */
-        }
-        .logo-container {
-            flex: 0 0 120px; /* Fixed width */
-            height: 120px;
-        }
-        .logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-        .company-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        .company-name {
-            font-size: 32px;
-            font-weight: bold;
-            font-family: serif;
-            color: #1a3c34;
-            line-height: 1.0;
-            margin-bottom: 2px;
-        }
-        .address {
-            font-size: 13px;
-            line-height: 1.3;
-            color: #333;
-        }
+        /* ✅ PERFECT ALIGNMENT - Logo LEFT + Text TOP-RIGHT, LOGO MOVED HIGHER */
+.header {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 15px;
+    height: 100px; /* Reduced from 120px */
+    padding-top: 0; /* Ensure no top padding */
+}
+.logo-container {
+    flex: 0 0 100px; /* Slightly smaller fixed width */
+    height: 100px; /* Matches header height */
+    margin-top: -8px; /* Pulls logo UP higher */
+    display: flex;
+    align-items: flex-start; /* Aligns logo to very top */
+}
+.logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+.company-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0; /* Aligns text to top */
+}
+.company-name {
+    font-size: 32px;
+    font-weight: bold;
+    font-family: serif;
+    color: #1a3c34;
+    line-height: 1.0;
+    margin-bottom: 2px;
+    margin-top: 0; /* No top margin */
+}
+.address {
+    font-size: 13px;
+    line-height: 1.3;
+    color: #333;
+    margin-top: 0; /* No top margin */
+}
+
         .header-line {
             height: 2px;
             background: #1a3c34;
