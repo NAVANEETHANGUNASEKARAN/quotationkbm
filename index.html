@@ -8,154 +8,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: Arial, sans-serif;
-    background: #fff;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:Arial,sans-serif;
+    background:#fff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 /* LOGIN */
-.login-container {
-    width: 360px;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    text-align: center;
-}
-.login-container h2 { margin-bottom: 20px; }
-.login-container input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-}
-.login-container button {
-    width: 100%;
-    padding: 12px;
-    background: #1a3c34;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-.error { color: red; display: none; }
-
-/* QUOTATION */
-.quotation-container {
-    display: none;
-    max-width: 900px;
-    padding: 30px;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-.logo-container {
-    width: 120px;
-    height: 120px;
-}
-.logo { width: 100%; height: 100%; object-fit: contain; }
-.company-name {
-    font-size: 32px;
-    font-weight: bold;
-    color: #1a3c34;
-}
-.address { margin-top: 5px; }
-
-.header-line {
-    height: 2px;
-    background: #1a3c34;
-    margin: 15px 0;
-}
-
-.date-section { text-align: right; margin-bottom: 20px; }
-
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 10px; border-bottom: 1px solid #ccc; }
-.amount { font-weight: bold; }
-
-button { cursor: pointer; }
-
-.actions { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
-</style>
-</head>
-
-<body>
-
-<!-- LOGIN -->
-<div id="loginScreen" class="login-container">
-    <h2>Admin Login</h2>
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <div id="errorMsg" class="error">Invalid credentials</div>
-</div>
-
-<!-- QUOTATION -->
-<div id="quotationScreen" class="quotation-container">
-
-    <div class="header">
-        <div class="logo-container">
-            <img src="images/logo.jpg" class="logo">
-        </div>
-        <div>
-            <div class="company-name">KANNAN BLUE METALS</div>
-            <div class="address">
-                165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051
-            </div>
-        </div>
-    </div>
-
-    <div class="header-line"></div>
-
-    <div class="date-section">
-        Date: <span id="date"></span>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Material</th><th>Unit</th><th>Cost</th><th>Amount</th>
-            </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-    </table>
-
-    <div class="actions">
-        <button onclick="window.print()">Print</button>
-        <button onclick="downloadPDF()">PDF</button>
-    </div>
-</div>
-
-<script>
-const ADMIN_USER = "admin";
-const ADMIN_PASS = "Kannan";
-
-function login() {
-    const u = document.getElementById("username").value;
-    const p = document.getElementById("password").value;
-
-    if (u === ADMIN_USER && p === ADMIN_PASS) {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("quotationScreen").style.display = "block";
-        document.getElementById("date").innerText =
-            new Date().toLocaleDateString("en-GB");
-    } else {
-        document.getElementById("errorMsg").style.display = "block";
-    }
-}
-
-function downloadPDF() {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-    pdf.text("Kannan Blue Metals Quotation", 20, 20);
-    pdf.save("quotation.pdf");
-}
-</script>
-
-</body>
-</html>
+#loginScreen{
+    width:360px;
+    padding:30px;
+    box-shadow:
