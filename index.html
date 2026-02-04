@@ -1,53 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kannan Blue Metals - Quotation</title>
+<title>Kannan Blue Metals</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 body{
-    font-family:Arial,sans-serif;
+    font-family:Arial;
+    margin:0;
+    padding:0;
     background:#fff;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
 }
 
 /* LOGIN */
 #loginScreen{
-    width:360px;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.login-box{
+    width:350px;
     padding:30px;
-    box-shadow:0 10px 25px rgba(0,0,0,.15);
-    border-radius:10px;
+    border:1px solid #ccc;
     text-align:center;
 }
-#loginScreen h2{margin-bottom:20px}
-#loginScreen input{
+.login-box input{
     width:100%;
-    padding:12px;
+    padding:10px;
     margin:10px 0;
 }
-#loginScreen button{
+.login-box button{
     width:100%;
-    padding:12px;
+    padding:10px;
     background:#1a3c34;
     color:#fff;
     border:none;
-    cursor:pointer;
 }
 #errorMsg{color:red;display:none}
 
 /* QUOTATION */
 #quotationScreen{
     display:none;
-    width:100%;
-    max-width:900px;
     padding:30px;
+    max-width:900px;
+    margin:auto;
 }
 
 /* HEADER */
@@ -56,12 +56,11 @@ body{
     align-items:center;
     gap:20px;
 }
-.logo-box{
+.logo{
     width:120px;
     height:120px;
-    flex-shrink:0;
 }
-.logo-box img{
+.logo img{
     width:100%;
     height:100%;
     object-fit:contain;
@@ -69,41 +68,14 @@ body{
 .company-name{
     font-size:32px;
     font-weight:bold;
-    color:#1a3c34;
 }
 .address{
-    margin-top:4px;
-    font-size:14px;
+    margin-top:5px;
 }
 .line{
     height:2px;
-    background:#1a3c34;
+    background:#000;
     margin:15px 0;
-}
-
-.date{
-    text-align:right;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-.customer{
-    display:flex;
-    gap:20px;
-    margin-bottom:20px;
-}
-.customer input{
-    width:100%;
-    padding:10px;
-}
-
-.add-btn{
-    background:#4CAF50;
-    color:#fff;
-    padding:10px 20px;
-    border:none;
-    cursor:pointer;
-    margin-bottom:15px;
 }
 
 table{
@@ -111,67 +83,29 @@ table{
     border-collapse:collapse;
 }
 th,td{
-    padding:10px;
     border-bottom:1px solid #ccc;
+    padding:8px;
 }
 .amount{font-weight:bold}
 .delete{
     background:red;
-    color:#fff;
+    color:white;
     border:none;
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    cursor:pointer;
-}
-
-.note{
-    text-align:right;
-    font-style:italic;
-    font-size:13px;
-    margin-top:5px;
-}
-
-.footer{
-    text-align:center;
-    margin-top:30px;
+    width:28px;
+    height:28px;
 }
 
 .actions{
-    margin-top:25px;
+    margin-top:20px;
     display:flex;
-    gap:15px;
-    justify-content:center;
+    gap:10px;
 }
 .actions button{
-    padding:12px 20px;
-    border:none;
-    cursor:pointer;
-    color:#fff;
-    background:#1a3c34;
+    padding:10px;
 }
-.print{background:#28a745}
 
-/* MODAL */
-#modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.5);
-}
-#modalContent{
-    background:#fff;
-    width:300px;
-    margin:20% auto;
-    padding:20px;
-}
-#modal select{width:100%;padding:10px}
-
-/* PRINT */
 @media print{
-    body *{visibility:hidden}
-    #quotationScreen,#quotationScreen *{visibility:visible}
-    .actions,.add-btn,.delete{display:none}
+    .actions,.addBtn,.delete{display:none}
 }
 </style>
 </head>
@@ -180,18 +114,20 @@ th,td{
 
 <!-- LOGIN -->
 <div id="loginScreen">
-    <h2>Admin Login</h2>
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <div id="errorMsg">Invalid credentials</div>
+    <div class="login-box">
+        <h2>Admin Login</h2>
+        <input id="username" placeholder="Username">
+        <input id="password" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div id="errorMsg">Invalid login</div>
+    </div>
 </div>
 
 <!-- QUOTATION -->
 <div id="quotationScreen">
 
     <div class="header">
-        <div class="logo-box">
+        <div class="logo">
             <img src="images/logo.jpg">
         </div>
         <div>
@@ -204,131 +140,100 @@ th,td{
 
     <div class="line"></div>
 
-    <div class="date">
+    <div style="text-align:right">
         Date: <span id="date"></span>
     </div>
 
-    <div class="customer">
-        <input id="party" placeholder="Party Name">
-        <input id="place" placeholder="Place">
-    </div>
+    <br>
 
-    <button class="add-btn" onclick="openModal()">+ Add Material</button>
+    <button class="addBtn" onclick="addRow()">+ Add Material</button>
 
     <table>
         <thead>
             <tr>
-                <th>Material</th><th>Unit</th><th>Cost</th><th>Amount</th><th>Action</th>
+                <th>Material</th>
+                <th>Unit</th>
+                <th>Cost</th>
+                <th>Amount</th>
+                <th>Action</th>
             </tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="rows"></tbody>
         <tfoot>
             <tr>
-                <td colspan="3" style="text-align:right"><b>GRAND TOTAL</b></td>
+                <td colspan="3" align="right"><b>GRAND TOTAL</b></td>
                 <td id="total">₹0</td>
                 <td></td>
             </tr>
         </tfoot>
     </table>
 
-    <div class="note">(including transport charges)</div>
-
-    <div class="footer">
-        📞 82206 24590 | 63698 30590 | 9842830590
-    </div>
-
     <div class="actions">
-        <button class="print" onclick="window.print()">Print</button>
-        <button onclick="downloadPDF()">Download PDF</button>
-        <button onclick="shareWA()">Share WhatsApp</button>
+        <button onclick="window.print()">Print</button>
+        <button onclick="downloadPDF()">PDF</button>
     </div>
-</div>
 
-<!-- MODAL -->
-<div id="modal">
-    <div id="modalContent">
-        <select id="material">
-            <option value="">Select</option>
-            <option>M-Sand</option><option>P-Sand</option><option>6 mm</option>
-            <option>12 mm</option><option>20 mm</option><option>40 mm</option>
-            <option>53 mm</option><option>Soling stone</option>
-            <option>Wetmix</option><option>GSB</option>
-            <option>6" solid blocks</option><option>8" solid blocks</option>
-            <option>Dust</option>
-        </select>
-        <br><br>
-        <button onclick="addRow()">Add</button>
-    </div>
 </div>
 
 <script>
 const ADMIN_USER="admin";
 const ADMIN_PASS="Kannan";
-let id=0;
+let rowId=0;
 
 function login(){
-    if(username.value===ADMIN_USER && password.value===ADMIN_PASS){
+    const u=document.getElementById("username").value;
+    const p=document.getElementById("password").value;
+
+    if(u===ADMIN_USER && p===ADMIN_PASS){
         document.getElementById("loginScreen").style.display="none";
         document.getElementById("quotationScreen").style.display="block";
-        date.innerText=new Date().toLocaleDateString("en-GB");
+        document.getElementById("date").innerText=
+            new Date().toLocaleDateString("en-GB");
     }else{
-        errorMsg.style.display="block";
+        document.getElementById("errorMsg").style.display="block";
     }
 }
 
-function openModal(){ modal.style.display="block"; }
-
 function addRow(){
-    if(!material.value) return;
+    const tbody=document.getElementById("rows");
     tbody.innerHTML+=`
-    <tr id="r${id}">
-        <td>${material.value}</td>
-        <td><input type="number" oninput="calc(${id})"></td>
-        <td><input type="number" oninput="calc(${id})"></td>
-        <td class="amount" id="a${id}">₹0</td>
-        <td><button class="delete" onclick="del(${id})">×</button></td>
+    <tr id="r${rowId}">
+        <td>M-Sand</td>
+        <td><input type="number" oninput="calc(${rowId})"></td>
+        <td><input type="number" oninput="calc(${rowId})"></td>
+        <td class="amount" id="a${rowId}">₹0</td>
+        <td><button class="delete" onclick="del(${rowId})">×</button></td>
     </tr>`;
-    id++;
-    modal.style.display="none";
-    material.value="";
+    rowId++;
 }
 
 function calc(i){
-    const r=document.getElementById(`r${i}`);
+    const r=document.getElementById("r"+i);
     const u=r.cells[1].children[0].value||0;
     const c=r.cells[2].children[0].value||0;
     const a=u*c;
-    document.getElementById(`a${i}`).innerText="₹"+a;
+    document.getElementById("a"+i).innerText="₹"+a;
     totalCalc();
 }
-function del(i){ document.getElementById(`r${i}`).remove(); totalCalc(); }
+
+function del(i){
+    document.getElementById("r"+i).remove();
+    totalCalc();
+}
 
 function totalCalc(){
     let t=0;
     document.querySelectorAll(".amount").forEach(e=>{
-        t+=+e.innerText.replace("₹","")||0;
+        t+=Number(e.innerText.replace("₹",""))||0;
     });
-    total.innerText="₹"+t;
+    document.getElementById("total").innerText="₹"+t;
 }
 
 function downloadPDF(){
     const {jsPDF}=window.jspdf;
     const pdf=new jsPDF();
-    const img=new Image();
-    img.src="images/logo.jpg";
-    pdf.addImage(img,"JPEG",15,15,30,30);
-    pdf.setFontSize(22);
-    pdf.text("KANNAN BLUE METALS",50,25);
-    pdf.setFontSize(11);
-    pdf.text("165/1, East Pudupalayam, M.Tholuvu, Chennimalai, Erode-638051",50,33);
-    pdf.line(15,45,195,45);
-    pdf.save("Kannan-Quotation.pdf");
-}
-
-function shareWA(){
-    window.open(`https://wa.me/?text=${encodeURIComponent(
-        "Kannan Blue Metals Quotation\nTotal: "+total.innerText
-    )}`);
+    pdf.text("Kannan Blue Metals Quotation",20,20);
+    pdf.save("quotation.pdf");
 }
 </script>
 
